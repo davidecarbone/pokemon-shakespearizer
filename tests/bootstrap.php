@@ -6,7 +6,7 @@ use Slim\App;
 use Slim\Container;
 
 $container = new Container();
-require_once __DIR__ . '/../routes/enabled.php';
+require_once __DIR__ . '/../rules/enabled.php';
 
 $settings = $container->get('settings');
 $settings->replace([

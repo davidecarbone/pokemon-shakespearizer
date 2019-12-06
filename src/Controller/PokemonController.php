@@ -3,11 +3,23 @@
 namespace PokemonShakespearizer\Controller;
 
 use InvalidArgumentException;
+use PokemonShakespearizer\HttpService\PokemonHttpService;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class PokemonController
 {
+    /** @var PokemonHttpService */
+    private $pokemonHttpService;
+
+    /**
+     * @param PokemonHttpService $pokemonHttpService
+     */
+    public function __construct(PokemonHttpService $pokemonHttpService)
+    {
+        $this->pokemonHttpService = $pokemonHttpService;
+    }
+
     /**
      * @param Request  $request
      * @param Response $response
@@ -20,6 +32,8 @@ class PokemonController
 
         try {
             $this->assertPokemonNameIsNotEmpty($pokemonName);
+
+            $pokemonDescription = $this->pokemonHttpService->retrievePokemonDescriptionByName($pokemonName);
         } catch (InvalidArgumentException $exception) {
             return $response->withJson([
                 'error' => $exception->getMessage()
@@ -28,7 +42,7 @@ class PokemonController
 
         return $response->withJson([
             'name' => $pokemonName,
-            'description' => 'dummy'
+            'description' => $pokemonDescription
         ], 200);
     }
 

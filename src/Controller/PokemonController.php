@@ -34,7 +34,7 @@ class PokemonController
         try {
             $this->assertPokemonNameIsNotEmpty($pokemonName);
 
-            $pokemonDescription = $this->pokemonHttpService->retrievePokemonDescriptionByName($pokemonName);
+            $pokemon = $this->pokemonHttpService->retrievePokemonByName($pokemonName);
         } catch (InvalidArgumentException $exception) {
             return $response->withJson([
                 'error' => $exception->getMessage()
@@ -47,7 +47,7 @@ class PokemonController
 
         return $response->withJson([
             'name' => $pokemonName,
-            'description' => $pokemonDescription
+            'description' => $pokemon->description()
         ], 200);
     }
 

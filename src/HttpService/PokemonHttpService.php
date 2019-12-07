@@ -4,6 +4,7 @@ namespace PokemonShakespearizer\HttpService;
 
 use PokeAPI\Client;
 use PokeAPI\Exception\NetworkException;
+use PokemonShakespearizer\Pokemon\Pokemon;
 
 class PokemonHttpService
 {
@@ -21,10 +22,10 @@ class PokemonHttpService
     /**
      * @param string $pokemonName
      *
-     * @return string
+     * @return Pokemon
      * @throws PokemonNotFoundException
      */
-    public function retrievePokemonDescriptionByName(string $pokemonName): string
+    public function retrievePokemonByName(string $pokemonName): Pokemon
     {
         try {
             $pokemonId = $this->client
@@ -37,7 +38,7 @@ class PokemonHttpService
                 ->getTranslations()
                 ->get('en');
 
-            return $pokemonDescription;
+            return Pokemon::withNameAndDescription($pokemonName, $pokemonDescription);
         } catch (NetworkException $exception) {
             throw new PokemonNotFoundException("No pokemon found with the name '$pokemonName'");
         }

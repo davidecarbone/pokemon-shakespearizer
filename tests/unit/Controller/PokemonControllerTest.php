@@ -1,12 +1,13 @@
 <?php
 
-namespace PokemonShakespearizer\Tests\Unit;
+namespace PokemonShakespearizer\Tests\Unit\Controller;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PokemonShakespearizer\Controller\PokemonController;
 use PokemonShakespearizer\HttpService\PokemonHttpService;
 use PokemonShakespearizer\HttpService\PokemonNotFoundException;
+use PokemonShakespearizer\Pokemon\Pokemon;
 use Slim\Http\Environment;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -34,8 +35,8 @@ class PokemonControllerTest extends TestCase
 
         $this->pokemonHttpServiceMock
             ->expects($this->once())
-            ->method('retrievePokemonDescriptionByName')
-            ->willReturn('a description');
+            ->method('retrievePokemonByName')
+            ->willReturn(Pokemon::withNameAndDescription('charizard', 'a description'));
 
         $environment = Environment::mock([
             'REQUEST_METHOD' => 'GET',
@@ -60,7 +61,7 @@ class PokemonControllerTest extends TestCase
 
         $this->pokemonHttpServiceMock
             ->expects($this->never())
-            ->method('retrievePokemonDescriptionByName');
+            ->method('retrievePokemonByName');
 
         $environment = Environment::mock([
             'REQUEST_METHOD' => 'GET',
@@ -83,7 +84,7 @@ class PokemonControllerTest extends TestCase
 
         $this->pokemonHttpServiceMock
             ->expects($this->once())
-            ->method('retrievePokemonDescriptionByName')
+            ->method('retrievePokemonByName')
             ->willThrowException(new PokemonNotFoundException());
 
         $environment = Environment::mock([

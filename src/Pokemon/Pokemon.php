@@ -7,7 +7,7 @@ final class Pokemon
     /** @var string */
     private $name;
 
-    /** @var string */
+    /** @var PokemonDescription */
     private $description;
 
     private function __construct()
@@ -24,7 +24,7 @@ final class Pokemon
     {
         $pokemon = new self();
         $pokemon->name = $name;
-        $pokemon->description = $description;
+        $pokemon->description = new PokemonDescription($description);
 
         return $pokemon;
     }

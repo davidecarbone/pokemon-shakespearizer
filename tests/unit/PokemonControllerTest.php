@@ -2,8 +2,11 @@
 
 namespace PokemonShakespearizer\Tests\Unit;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PokemonShakespearizer\Controller\PokemonController;
+use PokemonShakespearizer\HttpService\PokemonHttpService;
+use PokemonShakespearizer\HttpService\PokemonNotFoundException;
 use Slim\Http\Environment;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -13,17 +16,26 @@ class PokemonControllerTest extends TestCase
     /** @var PokemonController */
     private $pokemonController;
 
+    /** @var PokemonHttpService | MockObject */
+    private $pokemonHttpServiceMock;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->pokemonController = new PokemonController();
+        $this->pokemonHttpServiceMock = $this->createMock(PokemonHttpService::class);
+        $this->pokemonController = new PokemonController($this->pokemonHttpServiceMock);
     }
 
     /** @test */
     public function get_pokemon_should_respond_200_with_name_and_description()
     {
         $response = new Response();
+
+        $this->pokemonHttpServiceMock
+            ->expects($this->once())
+            ->method('retrievePokemonDescriptionByName')
+            ->willReturn('a description');
 
         $environment = Environment::mock([
             'REQUEST_METHOD' => 'GET',
@@ -46,6 +58,10 @@ class PokemonControllerTest extends TestCase
     {
         $response = new Response();
 
+        $this->pokemonHttpServiceMock
+            ->expects($this->never())
+            ->method('retrievePokemonDescriptionByName');
+
         $environment = Environment::mock([
             'REQUEST_METHOD' => 'GET',
             'REQUEST_URI' => '/pokemon',
@@ -57,6 +73,31 @@ class PokemonControllerTest extends TestCase
         $responseContent = $this->getResponseContent($response);
 
         $this->assertEquals(400, $response->getStatusCode());
+        $this->assertArrayHasKey('error', $responseContent);
+    }
+
+    /** @test */
+    public function get_pokemon_should_respond_404_when_http_service_does_not_return_a_description()
+    {
+        $response = new Response();
+
+        $this->pokemonHttpServiceMock
+            ->expects($this->once())
+            ->method('retrievePokemonDescriptionByName')
+            ->willThrowException(new PokemonNotFoundException());
+
+        $environment = Environment::mock([
+            'REQUEST_METHOD' => 'GET',
+            'REQUEST_URI' => '/pokemon',
+            'QUERY_STRING' => ''
+        ]);
+        $request = Request::createFromEnvironment($environment);
+        $request = $request->withAttribute('name', 'badName');
+
+        $response = $this->pokemonController->getPokemon($request, $response);
+        $responseContent = $this->getResponseContent($response);
+
+        $this->assertEquals(404, $response->getStatusCode());
         $this->assertArrayHasKey('error', $responseContent);
     }
 

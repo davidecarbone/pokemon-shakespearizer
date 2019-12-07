@@ -4,6 +4,7 @@ namespace PokemonShakespearizer\Controller;
 
 use InvalidArgumentException;
 use PokemonShakespearizer\HttpService\PokemonHttpService;
+use PokemonShakespearizer\HttpService\PokemonNotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -38,6 +39,10 @@ class PokemonController
             return $response->withJson([
                 'error' => $exception->getMessage()
             ], 400);
+        } catch (PokemonNotFoundException $exception) {
+            return $response->withJson([
+                'error' => $exception->getMessage()
+            ], 404);
         }
 
         return $response->withJson([

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9947a106a8d2254b00d9bb88a46e0655",
+    "content-hash": "aa4ef93fa80e22a6a0450682b8c3dd94",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1091,16 +1091,16 @@
         },
         {
             "name": "lmerotta/phpokeapi",
-            "version": "1.1.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lmerotta/phpokeapi.git",
-                "reference": "1ecdd3d015a945999c79736104b08aefc2e8ca48"
+                "url": "https://github.com/davidecarbone/phpokeapi.git",
+                "reference": "a8955acb82eab569be1b492855af49b0332373ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lmerotta/phpokeapi/zipball/1ecdd3d015a945999c79736104b08aefc2e8ca48",
-                "reference": "1ecdd3d015a945999c79736104b08aefc2e8ca48",
+                "url": "https://api.github.com/repos/davidecarbone/phpokeapi/zipball/a8955acb82eab569be1b492855af49b0332373ea",
+                "reference": "a8955acb82eab569be1b492855af49b0332373ea",
                 "shasum": ""
             },
             "require": {
@@ -1123,7 +1123,6 @@
                     "tests\\": "tests/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1134,7 +1133,10 @@
                 }
             ],
             "description": "A PHP7.1 Wrapper for PokéAPI, with cache and lazy-loading",
-            "time": "2019-09-27T06:37:04+00:00"
+            "support": {
+                "source": "https://github.com/davidecarbone/phpokeapi/tree/master"
+            },
+            "time": "2019-12-07T16:45:19+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -4036,7 +4038,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "lmerotta/phpokeapi": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

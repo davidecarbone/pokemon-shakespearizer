@@ -4,7 +4,7 @@ namespace PokemonShakespearizer\Pokemon;
 
 final class Pokemon
 {
-    /** @var string */
+    /** @var PokemonName */
     private $name;
 
     /** @var PokemonDescription */
@@ -23,10 +23,18 @@ final class Pokemon
     public static function withNameAndDescription(string $name, string $description): Pokemon
     {
         $pokemon = new self();
-        $pokemon->name = $name;
+        $pokemon->name = new PokemonName($name);
         $pokemon->description = new PokemonDescription($description);
 
         return $pokemon;
+    }
+
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return $this->name;
     }
 
     /**

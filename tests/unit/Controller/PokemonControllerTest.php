@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PokemonShakespearizer\Controller\PokemonController;
 use PokemonShakespearizer\HttpService\PokemonHttpService;
 use PokemonShakespearizer\HttpService\PokemonNotFoundException;
+use PokemonShakespearizer\HttpService\ShakespearizerHttpService;
 use PokemonShakespearizer\Pokemon\Pokemon;
 use Slim\Http\Environment;
 use Slim\Http\Request;
@@ -20,12 +21,16 @@ class PokemonControllerTest extends TestCase
     /** @var PokemonHttpService | MockObject */
     private $pokemonHttpServiceMock;
 
+    /** @var ShakespearizerHttpService | MockObject */
+    private $shakespearizerHttpServiceMock;
+
     public function setUp()
     {
         parent::setUp();
 
         $this->pokemonHttpServiceMock = $this->createMock(PokemonHttpService::class);
-        $this->pokemonController = new PokemonController($this->pokemonHttpServiceMock);
+        $this->shakespearizerHttpServiceMock = $this->createMock(ShakespearizerHttpService::class);
+        $this->pokemonController = new PokemonController($this->pokemonHttpServiceMock, $this->shakespearizerHttpServiceMock);
     }
 
     /** @test */
@@ -37,6 +42,12 @@ class PokemonControllerTest extends TestCase
             ->expects($this->once())
             ->method('retrievePokemonByName')
             ->willReturn(Pokemon::withNameAndDescription('charizard', 'a description'));
+
+        $this->shakespearizerHttpServiceMock
+            ->expects($this->once())
+            ->method('shakespearizeDescription')
+            ->with('a description')
+            ->willReturn('a shakespearized description');
 
         $environment = Environment::mock([
             'REQUEST_METHOD' => 'GET',
@@ -63,6 +74,10 @@ class PokemonControllerTest extends TestCase
             ->expects($this->never())
             ->method('retrievePokemonByName');
 
+        $this->shakespearizerHttpServiceMock
+            ->expects($this->never())
+            ->method('shakespearizeDescription');
+
         $environment = Environment::mock([
             'REQUEST_METHOD' => 'GET',
             'REQUEST_URI' => '/pokemon',
@@ -86,6 +101,10 @@ class PokemonControllerTest extends TestCase
             ->expects($this->once())
             ->method('retrievePokemonByName')
             ->willThrowException(new PokemonNotFoundException());
+
+        $this->shakespearizerHttpServiceMock
+            ->expects($this->never())
+            ->method('shakespearizeDescription');
 
         $environment = Environment::mock([
             'REQUEST_METHOD' => 'GET',

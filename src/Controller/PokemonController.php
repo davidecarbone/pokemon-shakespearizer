@@ -45,7 +45,7 @@ class PokemonController
             $pokemon = $this->pokemonHttpService->retrievePokemonByName($pokemonName);
             $shakespearizedDescription = $this
                 ->shakespearizerHttpService
-                ->shakespearizeDescription($pokemon->description());
+                ->shakespearizeDescription($pokemonName, $pokemon->description());
 
         } catch (InvalidArgumentException $exception) {
             return $response->withJson([

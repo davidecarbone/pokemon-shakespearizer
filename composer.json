@@ -14,7 +14,8 @@
         "slim/slim": "3.*",
         "symfony/http-foundation" : "*",
         "oscarotero/psr7-middlewares": "*",
-        "lmerotta/phpokeapi": "dev-master"
+        "lmerotta/phpokeapi": "dev-master",
+        "gilbitron/php-simplecache": "~1.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.4"

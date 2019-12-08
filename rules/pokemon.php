@@ -3,6 +3,7 @@
  * @var Slim\Container $container
  */
 
+use Gilbitron\Util\SimpleCache;
 use GuzzleHttp\Client;
 use PokemonShakespearizer\Configuration\Configuration;
 use PokemonShakespearizer\HttpService\PokemonHttpService;
@@ -24,7 +25,10 @@ $container['ShakespearizerHttpService'] = function($container) {
         'allow_redirects' => false,
     ]);
 
-    return new ShakespearizerHttpService($client);
+    $cache = new SimpleCache();
+    $cache->cache_path = '.cache/';
+
+    return new ShakespearizerHttpService($client, $cache);
 };
 
 $container['Configuration'] = function() {

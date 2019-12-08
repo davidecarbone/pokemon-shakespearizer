@@ -46,7 +46,7 @@ class PokemonControllerTest extends TestCase
         $this->shakespearizerHttpServiceMock
             ->expects($this->once())
             ->method('shakespearizeDescription')
-            ->with('a description')
+            ->with('charizard', 'a description')
             ->willReturn('a shakespearized description');
 
         $environment = Environment::mock([

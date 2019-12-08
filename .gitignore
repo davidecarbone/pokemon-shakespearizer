@@ -3,4 +3,5 @@ vendor
 !.gitignore
 !.gitkeep
 !.docker
+!.htaccess
 !.cache/pokemondescription_1.cache

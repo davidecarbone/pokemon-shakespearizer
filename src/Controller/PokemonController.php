@@ -6,7 +6,6 @@ use InvalidArgumentException;
 use PokemonShakespearizer\HttpService\PokemonHttpService;
 use PokemonShakespearizer\HttpService\PokemonNotFoundException;
 use PokemonShakespearizer\HttpService\ShakespearizerHttpService;
-use PokemonShakespearizer\HttpService\ShakespearizerHttpServiceException;
 use PokemonShakespearizer\HttpService\ShakespearizerHttpServiceRequestLimitReachedException;
 use Slim\Http\Request;
 use Slim\Http\Response;

@@ -5,17 +5,15 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 $app->get('/pokemon', function (Request $request, Response $response) {
-    $pokemonHttpService = $this->get('PokemonHttpService');
-    $shakespearizerHttpService = $this->get('ShakespearizerHttpService');
-    $controller = new PokemonController($pokemonHttpService, $shakespearizerHttpService);
+    $pokemonTranslator = $this->get('PokemonTranslator');
+    $controller = new PokemonController($pokemonTranslator);
 
     return $controller->getPokemon($request, $response);
 });
 
 $app->get('/pokemon/{name}', function (Request $request, Response $response) {
-    $pokemonHttpService = $this->get('PokemonHttpService');
-    $shakespearizerHttpService = $this->get('ShakespearizerHttpService');
-    $controller = new PokemonController($pokemonHttpService, $shakespearizerHttpService);
+    $pokemonTranslator = $this->get('PokemonTranslator');
+    $controller = new PokemonController($pokemonTranslator);
 
     return $controller->getPokemon($request, $response);
 });

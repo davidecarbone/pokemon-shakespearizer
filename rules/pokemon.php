@@ -6,6 +6,14 @@
 use Gilbitron\Util\SimpleCache;
 use PokemonShakespearizer\HttpService\PokemonHttpService;
 use PokemonShakespearizer\HttpService\ShakespearizerHttpService;
+use PokemonShakespearizer\PokemonTranslator\PokemonTranslator;
+
+$container['PokemonTranslator'] = function($container) {
+    $pokemonHttpService = $container['PokemonHttpService'];
+    $shakespearizerHttpService = $container['ShakespearizerHttpService'];
+
+    return new PokemonTranslator($pokemonHttpService, $shakespearizerHttpService);
+};
 
 $container['PokemonHttpService'] = function() {
     $pokeApiClient = new \PokeAPI\Client();

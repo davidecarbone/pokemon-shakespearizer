@@ -3,29 +3,25 @@
 namespace PokemonShakespearizer\Controller;
 
 use InvalidArgumentException;
-use PokemonShakespearizer\HttpService\PokemonHttpService;
 use PokemonShakespearizer\HttpService\PokemonNotFoundException;
-use PokemonShakespearizer\HttpService\ShakespearizerHttpService;
 use PokemonShakespearizer\HttpService\ShakespearizerHttpServiceRequestLimitReachedException;
+use PokemonShakespearizer\PokemonTranslator\PokemonTranslator;
+use PokemonShakespearizer\PokemonTranslator\PokemonTranslatorException;
+use PokemonShakespearizer\PokemonTranslator\PokemonTranslatorTooManyRequestsException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class PokemonController
 {
-    /** @var PokemonHttpService */
-    private $pokemonHttpService;
-
-    /** @var ShakespearizerHttpService */
-    private $shakespearizerHttpService;
+    /** @var PokemonTranslator */
+    private $pokemonTranslator;
 
     /**
-     * @param PokemonHttpService        $pokemonHttpService
-     * @param ShakespearizerHttpService $shakespearizerHttpService
+     * @param PokemonTranslator $pokemonTranslator
      */
-    public function __construct(PokemonHttpService $pokemonHttpService, ShakespearizerHttpService $shakespearizerHttpService)
+    public function __construct(PokemonTranslator $pokemonTranslator)
     {
-        $this->pokemonHttpService = $pokemonHttpService;
-        $this->shakespearizerHttpService = $shakespearizerHttpService;
+        $this->pokemonTranslator = $pokemonTranslator;
     }
 
     /**
@@ -41,10 +37,7 @@ class PokemonController
         try {
             $this->assertPokemonNameIsNotEmpty($pokemonName);
 
-            $pokemon = $this->pokemonHttpService->retrievePokemonByName($pokemonName);
-            $shakespearizedDescription = $this
-                ->shakespearizerHttpService
-                ->shakespearizeDescription($pokemonName, $pokemon->description());
+            $pokemon = $this->pokemonTranslator->shakespearize($pokemonName);
 
         } catch (InvalidArgumentException $exception) {
             return $response->withJson([
@@ -54,15 +47,19 @@ class PokemonController
             return $response->withJson([
                 'error' => $exception->getMessage()
             ], 404);
-        } catch (ShakespearizerHttpServiceRequestLimitReachedException $exception) {
+        } catch (PokemonTranslatorTooManyRequestsException $exception) {
             return $response->withJson([
                 'error' => $exception->getMessage()
             ], 429);
+        } catch (PokemonTranslatorException $exception) {
+            return $response->withJson([
+                'error' => $exception->getMessage()
+            ], 500);
         }
 
         return $response->withJson([
             'name' => $pokemon->name(),
-            'description' => $shakespearizedDescription
+            'description' => $pokemon->description()
         ], 200);
     }
 

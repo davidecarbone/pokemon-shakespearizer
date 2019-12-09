@@ -1,6 +1,6 @@
 <?php
 
-namespace PokemonShakespearizer\Test;
+namespace PokemonShakespearizer\Test\End2End;
 
 use PHPUnit\Framework\TestCase;
 use Slim\Container;

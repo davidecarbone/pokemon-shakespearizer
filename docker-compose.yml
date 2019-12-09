@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  pokemon:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: pokemon:latest
+    ports:
+      - '8080:80'
+    hostname: pokemon
+    restart: on-failure

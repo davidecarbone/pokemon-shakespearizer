@@ -3,7 +3,7 @@
 namespace PokemonShakespearizer\Tests\End2End;
 
 use GuzzleHttp\Client;
-use PokemonShakespearizer\Test\ContainerAwareTest;
+use PokemonShakespearizer\Test\End2End\ContainerAwareTest;
 
 class PokemonShakespearizerTest extends ContainerAwareTest
 {

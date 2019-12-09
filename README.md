@@ -6,21 +6,16 @@ A translator from English to Shakespearean for Pokemon descriptions!
 
 ### Installing
 
-You can use Docker to build a container with all requirements:
+You can use Docker-compose to build a container with all requirements:
 ```
-docker build --file .docker/Dockerfile -t pokemon-docker .
-docker run --rm -p 8080:80 pokemon-docker
+docker-compose up -d
 ```
-### Prerequisites (without Docker)
+**OR**  
 
-* PHP 7.1 or above
-* Apache2
-* Composer
-
-The following steps should be enough to run the app in your local environment:
+With raw Docker:
 ```
-$ composer install
-$ php -S localhost:8080 -r /path/to/your/local/project/location
+1) docker build --file .docker/Dockerfile -t pokemon-docker .
+2) docker run --rm -p 8080:80 pokemon-docker
 ```
 
 ### Usage
@@ -31,9 +26,14 @@ GET /pokemon/{pokemonName}
 
 ## Running the tests
 
-To run unit and end2end tests simply run from the project root:
+To run unit tests simply run from the project root:
 ```
 $ vendor/bin/phpunit
+```
+
+End2end tests are not run by default. To run them:
+```
+$ vendor/bin/phpunit --testsuite end2end
 ```
 
 ## Built With

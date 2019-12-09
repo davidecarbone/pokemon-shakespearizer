@@ -25,7 +25,7 @@ $container['ShakespearizerHttpService'] = function($container) {
 
     $client = $container['ShakespearizerHttpClient'];
     $cache = new SimpleCache();
-    $cache->cache_path = '.cache/';
+    $cache->cache_path = '/tmp/';
 
     return new ShakespearizerHttpService($client, $cache);
 };

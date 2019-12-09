@@ -4,11 +4,15 @@
 	 backupGlobals="false"
 	 bootstrap="tests/bootstrap.php"
 	 colors="true"
-	 verbose="true">
+	 verbose="true"
+	defaultTestSuite="unit">
 
   <testsuites>
-    <testsuite name="AllTests">
-      <directory suffix="Test.php">tests</directory>
+    <testsuite name="unit">
+      <directory suffix="Test.php">tests/unit</directory>
+    </testsuite>
+	<testsuite name="end2end">
+      <directory suffix="Test.php">tests/end2end</directory>
     </testsuite>
   </testsuites>
   <php>

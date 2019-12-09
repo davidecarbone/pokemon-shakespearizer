@@ -8,14 +8,14 @@ A translator from English to Shakespearean for Pokemon descriptions!
 
 You can use Docker-compose to build a container with all requirements:
 ```
-docker-compose up -d
+$ docker-compose up -d
 ```
 **OR**  
 
 With raw Docker:
 ```
-1) docker build --file .docker/Dockerfile -t pokemon-docker .
-2) docker run --rm -p 8080:80 pokemon-docker
+1) $ docker build --file .docker/Dockerfile -t pokemon-docker .
+2) $ docker run --rm -p 8080:80 pokemon-docker
 ```
 
 ### Usage
